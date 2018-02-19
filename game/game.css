@@ -1,23 +1,44 @@
-body{
-	background: black;
+html body{
+	background-image: url(../images/stars.jpg);
 }
 
-canvas{
+body canvas{
 display:block;
 margin: 70px auto ;
 margin-top: 30px ;
 }
-#map{
-	margin-top: 10px;
+div.container{
+	padding-right: 975px;
+	width:975px;
 }
-#gameName{
+ #letter{
+ 	background:#182430;
+ }
+ #nebula{
+	background: #182430;
+	width: 950px;
+	border-color: black;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	right: 60px;
+}
+ 
+#nebula:hover{
+	opacity: 0.7;
+}
+
+}
+#map{
+margin-top: 10px;
+}
+ #gameName h3{
 	color: #FFDC00;
 	font-weight: bold;
 	font-size: 24px;
 	text-align: center;
 	font-family: courier;
 	margin: 0px;
-	/*margin-bottom: 10px;*/
+	margin-top: 20px;
 }
 #player{
 display:block;

@@ -70,7 +70,7 @@ function init() {
 	expl.height = gameHeight;
 	stats.width = gameWidth;
 	stats.height = gameHeight;
-	statsCtx.fillStyle = "red";
+	statsCtx.fillStyle = "#2D30A1";
 	statsCtx.font = "bold 20pt courier";
 	player = new Player();
 	health = 100;
