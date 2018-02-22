@@ -1,0 +1,53 @@
+body{
+	background: #6C6D69;
+}
+nav{
+	background-color: #262626;
+}
+nav.navbar.navbar-default
+{
+	background-color: #262626;
+	border-color: #262626;
+	width: 100%;
+
+}
+#content {
+	
+	background:  #DE911D;
+	font: bold 15pt colibri;
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-bottom: 25px;
+	height: 100%;
+
+}
+footer{
+	position: relative;
+	display: block;
+	/*top: 400px;*/
+	background-color: #262626;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	text-align: center;
+	width: 100%;
+	
+
+	
+}
+.navbar-brand{
+	position: relative;
+	display: block;
+	left: 20px;
+	bottom: 10px;
+	color: green;
+	font: bold 25pt courier;	
+}
+
+ul li a{
+	display: block;
+	position: absolute;
+	font: bold 20pt courier;
+	margin-right: 10px;
+	left: 45px;
+	color: #2D30A1;
+}

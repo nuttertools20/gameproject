@@ -1,0 +1,20 @@
+body{
+	background: #6C6D69;
+}
+table{
+	width: 150px;
+	text-align: center;
+	font: bold 15pt colibri;
+}
+tr{
+	height: 30px;
+}
+#content {
+	
+	background: white;
+	font: bold 15pt colibri;
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-bottom: 25px;
+
+}
