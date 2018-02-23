@@ -1,0 +1,30 @@
+body{
+	background: #c7b39b url(../images/6dc04b1d.jpeg)no-repeat fixed center;
+	background-size: 100% 100%;
+	/*-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;*/
+}
+button a{
+ color: black;
+}
+button a:hover{
+ color: black;
+ text-decoration: none;
+}
+.form-horizontal{
+  position: fixed;
+  display: block;
+  float: none;
+  height: 200px;
+  width: 750px;
+  right: 300px;
+  top: 150px;
+  margin: 0 auto;
+  color: #FFDC00;
+  font: normal 18pt colibri;
+}
+.form-group{
+ height: 40px;
+
+}

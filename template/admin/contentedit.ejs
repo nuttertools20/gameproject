@@ -10,13 +10,15 @@
       </tr>
     </thead>
     <tbody>
+     <% data.map((item)=>{ %>
       <tr>
-        <th></th>
-        <td></td>
-        <td></td>
-        <td></td>
+        <th><%= item._id %></th>
+        <td><%= item.nick %></td>
+        <td><%= item.password %></td>
+        <td><%= item.email %></td>
         <td>save</td>
       </tr>
+      <% }); %>
     </tbody>    
   </table>
 </div>

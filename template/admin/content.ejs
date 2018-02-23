@@ -11,70 +11,16 @@
       </tr>
     </thead>
     <tbody>
+     <% data.map((item)=>{ %>
       <tr>
-        <th>1</th>
-        <td></td>
-        <td></td>
-        <td></td>
+        <th><%= item._id %></th>
+        <td><%= item.nick %></td>
+        <td><%= item.password %></td>
+        <td><%= item.email %></td>
         <td>edit</td>
         <td>delete</td>
       </tr>
-      <tr>
-        <th>2</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-      <tr>
-        <th>3</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-       <tr>
-        <th>4</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-       <tr>
-        <th>5</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-       <tr>
-        <th>6</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-       <tr>
-        <th>7</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
-       <tr>
-        <th>8</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>edit</td>
-        <td>delete</td>
-      </tr>
+      <% }); %>
     </tbody>    
   </table>
 </div> 

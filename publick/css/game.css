@@ -1,0 +1,74 @@
+html body{
+	background-image: url(../images/stars.jpg);
+}
+
+body canvas{
+display:block;
+margin: 70px auto ;
+margin-top: 30px ;
+}
+button a{
+ color: #2D30A1;
+}
+button a:hover{
+ color: #2D30A1;
+ text-decoration: none;
+}
+div.container{
+	padding-right: 975px;
+	width:975px;
+}
+ #letter{
+ 	background:#182430;
+ }
+ #nebula{
+	background: #182430;
+	width: 950px;
+	border-color: black;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	right: 60px;
+}
+ 
+#nebula:hover{
+	opacity: 0.7;
+}
+
+}
+#map{
+margin-top: 10px;
+}
+ #gameName h3{
+	color: #FFDC00;
+	font-weight: bold;
+	font-size: 24px;
+	text-align: center;
+	font-family: courier;
+	margin: 0px;
+	margin-top: 20px;
+}
+#player{
+display:block;
+margin: -870px auto 0px;
+
+}
+#enemy{
+display:block;
+margin: -800px auto 0px;
+
+}
+#stats{
+display:block;
+margin: -800px auto 0px;
+
+}
+#bullet{
+display:block;
+margin: -800px auto 0px;
+
+}
+#explosive{
+display:block;
+margin: -800px auto 0px;
+
+}
