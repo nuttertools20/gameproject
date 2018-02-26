@@ -11,14 +11,15 @@
       </tr>
     </thead>
     <tbody>
-     <% data.map((item)=>{ %>
+     <% data.map((item, index)=>{ %>
+     <% let i = index + 1; %>
       <tr>
-        <th><%= item._id %></th>
+        <th><%= i %></th>
         <td><%= item.nick %></td>
         <td><%= item.password %></td>
         <td><%= item.email %></td>
-        <td>edit</td>
-        <td>delete</td>
+        <td><a href="/admin/edituser/<%=item._id%>">edit</a></td>
+        <td><a href="/admin/delete/<%=item._id%>" class="deleteUser" data-userid="<%=item._id%>">delete</a></td>
       </tr>
       <% }); %>
     </tbody>    
