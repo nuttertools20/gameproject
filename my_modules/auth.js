@@ -1,7 +1,11 @@
+
 module.exports = function(req, res, next) {
-  if (true || req.session && req.session.nick){
-    return next();
-  }else{
-    return res.sendStatus(401);
-	}
-};
+	// if (req.session && req.session.user.nick && req.session.user.admin)
+ //    return next();
+ if (req.session && req.session.user) {	
+   	return next();
+   }  
+  else	
+   res.redirect("/autorization");   
+    // return res.sendStatus(401);  
+}

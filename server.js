@@ -25,50 +25,87 @@ app.set('views', __dirname + '/template');
 app.set('view engine', 'ejs');
 app.use('/', express.static(path.join(__dirname, "publick")));
 
-let Player = require("./model/Player");
+let player = require("./model/Player");
 const auth = require('./my_modules/auth');
+const authAdmin = require('./my_modules/authAdmin');
 var api = require('./api');
+
+let loadUser = function (req, res, next) {
+  if (req.session.user_id) {
+    Player.findById(req.session.user_id, function(user) {
+      if (user) {
+        req.currentUser = user;
+        next();
+      } else {
+        res.redirect('/main');
+      }
+    });
+  } else {
+    res.redirect('/main');
+  }
+}
+
 
 app.get('/autorization', function (req, res) {
   res.render('registration/autorization', {
-  	title: 'autorization'
+  title: 'autorization'	
   });
 });
 
-app.post('/autorization', function (req, res) {
+app.post('/autorization',  function (req, res) {
+ // if (req.session.user) return res.redirect('/main')
 
-		if (!req.query.nick || !req.query.password) {
-    res.send('login failed');    
-  } else if(req.query.nick === "Randomuser" || req.query.password === "1234") {
-    req.session.user = "Randomuser";
-    req.session.admin = true;
-    res.redirect('user cabinet/main');
-  }
+		api.checkUser(req.body)
+			.then(function(user){
+				
+				if(user){
+
+	     req.session.user = {id: user._id, nick: user.nick, password: user.password, admin: user.admin}
+					if(user.admin === true){
+ 						res.redirect('/admin')
+ 					}
+					res.redirect('/main')	
+					
+				} else {
+					// res.redirect('/autorization')
+					return next(error)
+				}
+			})
+			.catch(function(error){
+				res.redirect('/autorization')
+				res.send(400, error);
+				return next(error)
+			});
 });
+
+app.get('/logout', function(req, res) {
+	  	req.session.destroy();
+			res.redirect('/autorization');
+	});
+
+
+
 app.get('/registration', function (req, res) {
-	 if (req.session.user) return res.redirect('/')
-  res.render('registration/registration', {
-  	title: 'registration'
-  });
+	res.render('registration/registration', {
+	title: 'registration'
+   });
 });
 app.post('/registration', function (req, res) {
 
-  if(!req.body) return res.sendStatus(400);
-     
-    const {nick, password, email} = req.body;
-    var user = {nick, password, email};
-  
-    mongoClient.connect(url, function(err, db){
-        db.collection("players").insertOne(user, function(err, result){
-             
-            if(err) return res.status(400).send();
-            db.close();
-            res.redirect('/main');
-        });
-    });
+ api.createUser(req.body)
+		  	.then(function(result){
+		  		// console.log("User created");
+		  		res.redirect('/about');
+		  	})
+		  	.catch(function(err){
+		  		if (err.toJSON().code == 11000){
+		  			res.status(500).send("This login already exist")
+		  		}
+		  	})
 
 });
-app.get('/main', function (req, res) {
+
+app.get('/main',auth, function (req, res) {
   res.render('user cabinet/main', {
   	title: 'main'
   });
@@ -80,7 +117,7 @@ app.get('/about', function (req, res) {
   });
 });
 
-app.get('/game', function (req, res) {
+app.get('/game',auth, function (req, res) {
   res.render('game', {
   	title: 'STAR FIGHTER'
   });
@@ -91,7 +128,7 @@ app.get('/logout', function(req, res) {
   res.redirect("registration/autorization");
 });
 
-app.get('/admin', function (req, res) {
+app.get('/admin',auth,authAdmin, function (req, res) {
   
   mongoClient.connect(url, (err, db)=>{
             db.collection("players").find({}).toArray((err, players)=>{
@@ -105,7 +142,7 @@ app.get('/admin', function (req, res) {
   	});
 
 
-app.get('/admin/edituser/:id', function (req, res) {
+app.get('/admin/edituser/:id',auth,authAdmin, function (req, res) {
 	  var id = new objectId(req.params.id);
 	            mongoClient.connect(url, function(err, db){
 	            db.collection("players").findOne({_id: id}, function(err, user){          
@@ -119,12 +156,12 @@ app.get('/admin/edituser/:id', function (req, res) {
     });
 });
 
-app.post('/admin/edituser/:id', function (req, res) {
+app.post('/admin/edituser/:id',auth,authAdmin, function (req, res) {
          	if(!req.body) return res.sendStatus(400);
-            const {nick, password, email} = req.body;
+            const {nick, password, email, admin} = req.body;
             var id = new objectId(req.params.id);
             mongoClient.connect(url, function(err, db){
-            db.collection("players").findOneAndUpdate({_id: id}, { $set: {nick, password, email}},
+            db.collection("players").findOneAndUpdate({_id: id}, { $set: {nick, password, email, admin}},
             {returnOriginal: false },function(err, result){            
             if(err) return res.status(400).send();            
             db.close();
@@ -133,7 +170,7 @@ app.post('/admin/edituser/:id', function (req, res) {
         }); 	
     });
 
-app.get('/admin/delete/:id', function (req, res) {
+app.get('/admin/delete/:id',auth,authAdmin, function (req, res) {
 
 		var id = new objectId(req.params.id);
                 mongoClient.connect(url, function(err, db){
@@ -145,7 +182,7 @@ app.get('/admin/delete/:id', function (req, res) {
         });
 	});	
 
-app.post('/admin/deleteajax/:id', function (req, res) {
+app.post('/admin/deleteajax/:id',auth,authAdmin, function (req, res) {
 
 		var id = new objectId(req.params.id);
         mongoClient.connect(url, function(err, db){

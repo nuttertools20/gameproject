@@ -1,15 +1,20 @@
 var mongoose = require('mongoose');
 var Player = new mongoose.Schema({
-    login : {
+    nick: {
         type: String,
         unique: true,
         required: true
     },
-    pass : {
+    password: {
         type: String,
         required: true
     },
-    isAdmin: {
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    admin: {
     	type: Boolean,
     	default: false,
     },

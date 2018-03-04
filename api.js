@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 var crypto = require('crypto')
-var db = mongoose.connect("mongodb://localhost:27017/test")
+var db = mongoose.connect("mongodb://localhost:27017/players")
 var Player = require('./model/Player')
 
 // User API
@@ -8,9 +8,11 @@ var Player = require('./model/Player')
 exports.createUser = function(userData){
 	var user = {
 		nick: userData.nick,
-		password: hash(userData.password)
+		password: hash(userData.password),
+		email: userData.email,
+		admin: userData.admin
 	}
-	return new Player(user).save()
+	return new Player(user).save();
 }
 
 exports.getUser = function(id) {

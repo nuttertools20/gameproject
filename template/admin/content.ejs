@@ -6,6 +6,7 @@
         <th>Nickname</th>
         <th>Password</th>
         <th>Email</th>
+        <th>Admin</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -18,6 +19,7 @@
         <td><%= item.nick %></td>
         <td><%= item.password %></td>
         <td><%= item.email %></td>
+        <td><%= item.admin %></td>
         <td><a href="/admin/edituser/<%=item._id%>">edit</a></td>
         <td><a href="/admin/delete/<%=item._id%>" class="deleteUser" data-userid="<%=item._id%>">delete</a></td>
       </tr>
