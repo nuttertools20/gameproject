@@ -1,6 +1,9 @@
 body{
 	background: #6C6D69;
 }
+header{
+	font: bold 15pt colibri;
+}
 table{
 	width: 150px;
 	text-align: center;

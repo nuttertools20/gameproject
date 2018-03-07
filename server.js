@@ -94,7 +94,6 @@ app.post('/registration', function (req, res) {
 
  api.createUser(req.body)
 		  	.then(function(result){
-		  		// console.log("User created");
 		  		res.redirect('/about');
 		  	})
 		  	.catch(function(err){

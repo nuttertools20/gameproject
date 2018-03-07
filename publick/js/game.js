@@ -15,9 +15,9 @@ let en;
 let bullets = [];
 let bull;
 let bullCtx;
-// let blasters = [];
-// let blast;
-// let blastCtx;
+let blasters = [];
+let blast;
+let blastCtx;
 let explosives = [];
 let expl;
 let explCtx;
@@ -50,8 +50,9 @@ function init() {
 	bull = document.getElementById("bullet");
 	bullCtx = bull.getContext("2d");
 	bullCtx1 = bull.getContext("2d");
-	// blast = document.getElementById("blast");
-	// blastCtx = blast.getContext("2d");
+	blast = document.getElementById("blast");
+	blastCtx = blast.getContext("2d");
+	blastCtx1 = blast.getContext("2d");
 	expl = document.getElementById("explosive");
 	explCtx = expl.getContext("2d");
 	stats = document.getElementById("stats");
@@ -64,8 +65,8 @@ function init() {
 	en.height = gameHeight;
 	bull.width = gameWidth;
 	bull.height = gameHeight;
-	// blast.width = gameWidth;
-	// blast.height = gameHeight;
+	blast.width = gameWidth;
+	blast.height = gameHeight;
 	expl.width = gameWidth;
 	expl.height = gameHeight;
 	stats.width = gameWidth;
@@ -107,7 +108,9 @@ update = ()=>{
 	for(let i = 0; i < bullets.length; i++){
 		bullets[i].update();
 	}
-
+	for(let i = 0; i < blasters.length; i++){
+		blasters[i].update();
+	}
 }
 moveBg = ()=>{
 	let val = 4;
@@ -124,11 +127,15 @@ draw = ()=>{
 	player.draw();
 	clearEnemy();
 	clearBullet();
+	clearBlast();
 	for(let i = 0; i < enemies.length; i++){
 		enemies[i].draw();	
 	}
 	for(let i = 0; i < bullets.length; i++){
 		bullets[i].draw();
+	}
+	for(let i = 0; i < blasters.length; i++){
+		blasters[i].draw();
 	}
 }
 resetHealth = ()=>{
@@ -194,8 +201,43 @@ let Player = function(){
 			   this.drawY >= enemies[i].drawY - height &&
 			   this.drawX - 46 >= enemies[i].drawX - width 
 			   ){
-				 health--;
+				health--;
 				resetHealth();
+				}
+		}
+
+		for(let i = 0; i < blasters.length; i++){
+			if(
+			   this.drawX >= blasters[i].drawX &&
+			   this.drawY + 250>= blasters[i].drawY &&
+			   this.drawY + 250<= blasters[i].drawY + height &&
+			   this.drawX <= blasters[i].drawX + width ||
+			   this.drawX -100 >= blasters[i].drawX1 &&
+			   this.drawY + 250>= blasters[i].drawY &&
+			   this.drawY + 250<= blasters[i].drawY + height &&
+			   this.drawX -100<= blasters[i].drawX1 + width 
+			   ){
+				health--;
+				resetHealth();
+				blasters[i].deleteBlast();
+				clearBlast();
+				}
+			}
+		for(let i = 0; i < blasters.length; i++){		
+			if(
+			   this.drawX - 46 <= blasters[i].drawX  &&
+			   this.drawY <= blasters[i].drawY &&
+			   this.drawY >= blasters[i].drawY - height &&
+			   this.drawX - 46 >= blasters[i].drawX - width ||
+			   this.drawX  <= blasters[i].drawX1  &&
+			   this.drawY <= blasters[i].drawY &&
+			   this.drawY >= blasters[i].drawY - height &&
+			   this.drawX >= blasters[i].drawX1 - width 
+			   ){
+				health--;
+				resetHealth();
+				blasters[i].deleteBlast();
+				clearBlast();
 				}
 		}
 	}
@@ -236,37 +278,40 @@ function clearBullet() {
 	bullCtx.clearRect(0, 0, gameWidth, gameHeight);
 }
 
-// let Blaster = function(){
-// 	let srcX = 0;
-// 	let srcY = 347;
-// 	this.drawX;
-// 	this.drawY;
-// 	height = 120;
-// 	width = 120;
-// 	speed = 12;
+let Blaster = function(blastX,blastY){
+	let srcX = 0;
+	let srcY = 780;
+	this.drawX = blastX;
+	this.drawX1 = blastX+90;
+	this.drawY = blastY;
+	height = 120;
+	width = 120;
+	speed = 15;
 	
-// 	this.draw = ()=>{
-// 		blastCtx.drawImage(tiles, srcX, srcY, width, height, 
-// 		this.drawX, this.drawY, width, height);		
-// 	}
-// 	this.update = ()=>{	
-// 		this.drawY -= speed;
-// 		if(this.drawY > 800){
-// 			this.deleteBlast();
-// 		}
-// 	}	
-// 	this.deleteBlast = ()=>{
-// 		blasters.splice(blasters.indexOf(this), 1);
-// 	}
-// } 
-// function blaster(){
-// 	for(let i = 0; i < 1; i++){
-// 		blasters[i] = new Blaster();
-// 	}
-// } 
-// function clearBlast() {
-// 	blastCtx.clearRect(0, 0, gameWidth, gameHeight);
-// }
+	this.draw = ()=>{
+		blastCtx.drawImage(tiles, srcX, srcY, width, height, 
+		this.drawX, this.drawY, width, height);	
+		blastCtx1.drawImage(tiles, srcX, srcY, width, height, 
+		this.drawX1, this.drawY, width, height);	
+	}
+	this.update = ()=>{	
+		this.drawY += speed;
+		if(this.drawY > 800){
+			this.deleteBlast();
+		}
+	}	
+	this.deleteBlast = ()=>{
+		blasters.splice(blasters.indexOf(this), 1);
+	}
+} 
+function blaster(blastX,blastY){
+	for(let i = 0; i < 1; i++){
+		blasters[i] = new Blaster(blastX, blastY);
+	}
+} 
+function clearBlast() {
+	blastCtx.clearRect(0, 0, gameWidth, gameHeight);
+}
 
 let Explosive = function(){
 	let srcX = 0;
@@ -426,13 +471,18 @@ clearEnemy = ()=>{
 }
 spawnEnemy = function(count){
 	for(let i = 0; i < count; i++){
+
 		enemies[i] = new Enemy();
+		blastX = enemies[i].drawX;
+		blastY = enemies[i].drawY;
+		blaster(enemies[i].drawX, enemies[i].drawY);
 	}
 }
 createEnemy = ()=>{
 	stopCreateEnemy();
 	spawnInterval = setInterval(()=>{
 		spawnEnemy(countEnemies);
+		
 	}, 3000);
 }
 stopCreateEnemy = ()=>{
